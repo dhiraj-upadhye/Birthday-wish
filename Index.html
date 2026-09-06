@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>For You ❤️</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", sans-serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a0010, #4b0028, #16000d);
+            color: white;
+        }
+
+        /* ---------------------------
+           PAGE CONTAINER
+        ---------------------------- */
+
+        .page {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(1.05);
+
+            transition:
+                opacity 0.8s ease,
+                transform 0.8s ease,
+                visibility 0.8s;
+        }
+
+        .page.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        .content {
+            position: relative;
+            z-index: 5;
+            width: min(90%, 700px);
+            padding: 30px;
+        }
+
+        /* ---------------------------
+           TEXT
+        ---------------------------- */
+
+        .small-text {
+            font-size: 1.1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.85;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+
+            background: linear-gradient(
+                90deg,
+                #fff,
+                #ffb6d9,
+                #ff4f9a,
+                #fff
+            );
+
+            background-size: 300%;
+            -webkit-background-clip: text;
+            color: transparent;
+
+            animation: textGlow 5s infinite;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 6vw, 4rem);
+            margin-bottom: 25px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #ffe8f2;
+        }
+
+        .highlight {
+            color: #ff6fae;
+        }
+
+        @keyframes textGlow {
+            0% {
+                background-position: 0%;
+            }
+
+            50% {
+                background-position: 100%;
+            }
+
+            100% {
+                background-position: 0%;
+            }
+        }
+
+        /* ---------------------------
+           HEART BUTTON
+        ---------------------------- */
+
+        .heart-button {
+            margin: 40px auto 0;
+
+            width: 90px;
+            height: 90px;
+
+            border: none;
+            background: transparent;
+
+            position: relative;
+            cursor: pointer;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            animation: heartbeat 1.4s infinite;
+        }
+
+        .heart {
+            width: 55px;
+            height: 55px;
+
+            background: #ff397d;
+
+            transform: rotate(-45deg);
+
+            position: relative;
+
+            box-shadow:
+                0 0 20px #ff397d,
+                0 0 50px rgba(255, 57, 125, 0.7);
+        }
+
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+
+            width: 55px;
+            height: 55px;
+
+            background: #ff397d;
+
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -27px;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: 27px;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            15% {
+                transform: scale(1.2);
+            }
+
+            30% {
+                transform: scale(1);
+            }
+
+            45% {
+                transform: scale(1.12);
+            }
+        }
+
+        .click-text {
+            margin-top: 25px;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            opacity: 0.7;
+        }
+
+        /* ---------------------------
+           FLOATING HEARTS
+        ---------------------------- */
+
+        .hearts-container {
+            position: fixed;
+            inset: 0;
+
+            overflow: hidden;
+
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-heart {
+            position: absolute;
+
+            color: rgba(255, 105, 160, 0.4);
+
+            font-size: 20px;
+
+            animation:
+                floatUp linear infinite,
+                sway ease-in-out infinite;
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(110vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(-15vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes sway {
+            0%, 100% {
+                margin-left: -20px;
+            }
+
+            50% {
+                margin-left: 20px;
+            }
+        }
+
+        /* ---------------------------
+           BIRTHDAY PAGE
+        ---------------------------- */
+
+        #page3 {
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(255, 80, 140, 0.15),
+                    transparent 50%
+                );
+        }
+
+        .birthday-card {
+            padding: 45px 30px;
+
+            border: 1px solid rgba(255,255,255,0.15);
+
+            background: rgba(255,255,255,0.06);
+
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+
+            border-radius: 30px;
+
+            box-shadow:
+                0 20px 80px rgba(0,0,0,0.4),
+                inset 0 0 30px rgba(255,255,255,0.03);
+        }
+
+        .birthday-title {
+            font-size: clamp(2.8rem, 9vw, 5.5rem);
+
+            margin-bottom: 25px;
+        }
+
+        .cake {
+            font-size: 70px;
+
+            margin-bottom: 20px;
+
+            animation:
+                cakeBounce 2s infinite ease-in-out;
+        }
+
+        @keyframes cakeBounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        .message {
+            max-width: 580px;
+            margin: auto;
+
+            font-size: 1.15rem;
+            color: #ffeaf3;
+        }
+
+        .love {
+            margin-top: 30px;
+
+            font-size: 1.5rem;
+            color: #ff78b3;
+
+            font-weight: 600;
+        }
+
+        /* ---------------------------
+           CONFETTI
+        ---------------------------- */
+
+        .confetti {
+            position: fixed;
+
+            width: 8px;
+            height: 15px;
+
+            top: -20px;
+
+            z-index: 20;
+
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform:
+                    translateY(0)
+                    rotate(0deg);
+            }
+
+            100% {
+                transform:
+                    translateY(110vh)
+                    rotate(720deg);
+            }
+        }
+
+        /* ---------------------------
+           MOBILE
+        ---------------------------- */
+
+        @media (max-width: 600px) {
+
+            .content {
+                padding: 20px;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .birthday-card {
+                padding: 35px 20px;
+            }
+
+            .heart-button {
+                margin-top: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating Hearts -->
+    <div class="hearts-container" id="hearts"></div>
+
+
+    <!-- ==========================
+         PAGE 1
+    =========================== -->
+
+    <section class="page active" id="page1">
+
+        <div class="content">
+
+            <div class="small-text">
+                A little something for you ❤️
+            </div>
+
+            <h1>HELLO<br>VAISHALI</h1>
+
+            <p>
+                I have something special waiting for you...
+            </p>
+
+            <button class="heart-button" onclick="nextPage(2)">
+                <div class="heart"></div>
+            </button>
+
+            <div class="click-text">
+                Tap the heart
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================
+         PAGE 2
+    =========================== -->
+
+    <section class="page" id="page2">
+
+        <div class="content">
+
+            <div class="small-text">
+                Finally...
+            </div>
+
+            <h2>
+                The day has come
+            </h2>
+
+            <p>
+                The day I have been waiting for
+                <span class="highlight">for so long.</span>
+                ❤️
+            </p>
+
+            <br>
+
+            <p>
+                But before we begin...
+                <br>
+                <strong>Are you ready for the surprise?</strong>
+            </p>
+
+            <button class="heart-button" onclick="nextPage(3)">
+                <div class="heart"></div>
+            </button>
+
+            <div class="click-text">
+                Tap the heart for your surprise
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================
+         PAGE 3
+    =========================== -->
+
+    <section class="page" id="page3">
+
+        <div class="content">
+
+            <div class="birthday-card">
+
+                <div class="cake">
+                    🎂
+                </div>
+
+                <h1 class="birthday-title">
+                    Happy Birthday
+                </h1>
+
+                <h2 class="highlight">
+                    Vaishali ❤️
+                </h2>
+
+                <p class="message">
+                    Happy Birthday to the most special person
+                    in my life. ❤️
+                    <br><br>
+
+                    I hope this beautiful day brings you
+                    endless happiness, beautiful memories,
+                    and everything your heart wishes for.
+                    <br><br>
+
+                    Thank you for being you, for making
+                    ordinary moments feel special, and for
+                    bringing so much happiness into my life.
+                    <br><br>
+
+                    I wish you all the success and happiness for you.
+                </p>
+
+                <div class="love">
+                    With all my love ❤️
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <script>
+
+        /* =================================
+           PAGE NAVIGATION
+        ================================= */
+
+        let currentPage = 1;
+
+        function nextPage(pageNumber) {
+
+            const current = document.getElementById(
+                "page" + currentPage
+            );
+
+            const next = document.getElementById(
+                "page" + pageNumber
+            );
+
+            current.classList.remove("active");
+
+            setTimeout(() => {
+
+                next.classList.add("active");
+
+            }, 100);
+
+            currentPage = pageNumber;
+
+            /* Start celebration */
+            if (pageNumber === 3) {
+                startConfetti();
+            }
+        }
+
+
+        /* =================================
+           FLOATING HEARTS
+        ================================= */
+
+        const heartsContainer =
+            document.getElementById("hearts");
+
+        const heartSymbols = [
+            "❤️",
+            "💕",
+            "💗",
+            "💖",
+            "💓",
+            "♥"
+        ];
+
+        function createFloatingHeart() {
+
+            const heart =
+                document.createElement("div");
+
+            heart.classList.add("floating-heart");
+
+            heart.innerHTML =
+                heartSymbols[
+                    Math.floor(
+                        Math.random() *
+                        heartSymbols.length
+                    )
+                ];
+
+            heart.style.left =
+                Math.random() * 100 + "%";
+
+            heart.style.fontSize =
+                (Math.random() * 25 + 12) + "px";
+
+            const duration =
+                Math.random() * 8 + 7;
+
+            heart.style.animationDuration =
+                duration + "s";
+
+            heart.style.animationDelay =
+                Math.random() * 2 + "s";
+
+            heartsContainer.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, (duration + 3) * 1000);
+        }
+
+        setInterval(
+            createFloatingHeart,
+            500
+        );
+
+
+        /* =================================
+           CONFETTI
+        ================================= */
+
+        function startConfetti() {
+
+            /* Initial burst */
+            for (let i = 0; i < 150; i++) {
+
+                setTimeout(() => {
+                    createConfetti();
+                }, i * 12);
+
+            }
+
+            /* Continue falling confetti */
+            setInterval(() => {
+
+                for (let i = 0; i < 8; i++) {
+                    createConfetti();
+                }
+
+            }, 500);
+        }
+
+
+        function createConfetti() {
+
+            const confetti =
+                document.createElement("div");
+
+            confetti.classList.add("confetti");
+
+            const shapes = [
+                "●",
+                "■",
+                "♥",
+                "★"
+            ];
+
+            confetti.innerHTML =
+                shapes[
+                    Math.floor(
+                        Math.random() *
+                        shapes.length
+                    )
+                ];
+
+            confetti.style.left =
+                Math.random() * 100 + "vw";
+
+            confetti.style.fontSize =
+                (Math.random() * 10 + 8) + "px";
+
+            confetti.style.animationDuration =
+                (Math.random() * 3 + 3) + "s";
+
+            confetti.style.opacity =
+                Math.random() * 0.7 + 0.3;
+
+            document.body.appendChild(confetti);
+
+            setTimeout(() => {
+                confetti.remove();
+            }, 7000);
+        }
+
+
+        /* =================================
+           INITIAL HEARTS
+        ================================= */
+
+        for (let i = 0; i < 15; i++) {
+            setTimeout(
+                createFloatingHeart,
+                i * 300
+            );
+        }
+
+    </script>
+
+</body>
+</html>
